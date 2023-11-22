@@ -17,41 +17,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tV;
     Button bC;
     Button bR;
-    ActivityResultLauncher<Intent> aRLCol;
-    ActivityResultLauncher<Intent> aRLAlig;
+    ActivityResultLauncher<Intent> aRLColAlig;
+    final static int COLOR = 111;
+    final static int ALIGMENT = 222;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        aRLCol = registerForActivityResult(
+        aRLColAlig = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult activityResult) {
                         int result = activityResult.getResultCode();
                         Intent data = activityResult.getData();
-                        if (result == RESULT_OK) {
+                        System.out.println(activityResult);
+                        if (result == COLOR) {
                             int color = data.getIntExtra("color", 0);
                             tV.setTextColor(color);
-                        } else tV.setText("Ты нихрена не ввел color");
-                    }
-                });
-
-        aRLAlig = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult activityResult) {
-                        int result = activityResult.getResultCode();
-                        Intent data = activityResult.getData();
-                        if (result == RESULT_OK) {
+                        } else if (result == ALIGMENT) {
                             int gravity = data.getIntExtra("aligment", 0);
                             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tV.getLayoutParams());
                             layoutParams.gravity = gravity;
                             tV.setLayoutParams(layoutParams);
                             tV.setGravity(gravity);
-                        } else tV.setText("Ты нихрена не ввел gravity");
+                        } else tV.setText("Ты нихрена не ввел");
                     }
                 });
 
@@ -64,13 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = null;
+        Intent intent;
         if (v.equals(bC)) {
             intent = new Intent(this, ColorActivity.class);
-            aRLCol.launch(intent);
+            aRLColAlig.launch(intent);
         } else if (v.equals(bR)) {
             intent = new Intent(this, AligmentActivity.class);
-            aRLAlig.launch(intent);
+            aRLColAlig.launch(intent);
         }
     }
 }

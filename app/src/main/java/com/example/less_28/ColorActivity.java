@@ -32,7 +32,7 @@ public class ColorActivity extends AppCompatActivity implements View.OnClickList
         if(v.equals(bR)) intent.putExtra("color", Color.RED);
         if(v.equals(bG)) intent.putExtra("color", Color.GREEN);
         if(v.equals(bB)) intent.putExtra("color", Color.BLUE);
-        setResult(RESULT_OK, intent);
+        setResult(MainActivity.COLOR, intent);
         finish();
     }
 }
